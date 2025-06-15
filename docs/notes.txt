@@ -1,0 +1,59 @@
+emcc -O3 \
+  -Iinclude -Iggml/include -Isrc -Icommon -Iggml/src \
+  -c ggml/src/ggml-alloc.c -o ggml-alloc.o
+
+emcc -O3 \
+  -Iinclude -Iggml/include -Isrc -Icommon -Iggml/src \
+  -c ggml/src/ggml-quants.c -o ggml-quants.o
+
+emcc -O3 \
+  -Iinclude -Iggml/include -Isrc -Icommon -Iggml/src \
+  -c ggml/src/ggml.c -o ggml.o
+
+
+
+emcc -std=c++11 \
+  -O3 \
+  -s USE_PTHREADS=1 \
+  -s PTHREAD_POOL_SIZE=4 \
+  -s ALLOW_MEMORY_GROWTH=1 \
+  -s MODULARIZE=1 \
+  -s EXPORT_NAME="llama" \
+  -s 'EXPORTED_RUNTIME_METHODS=["ccall", "cwrap"]' \
+  -s 'EXPORTED_FUNCTIONS=["_run_inference"]' \
+  -Iinclude \
+  -Iggml/include \
+  -Isrc \
+  -Icommon \
+  -o llama.js \
+  wasm_main.cpp \
+  src/llama.cpp \
+  src/llama-sampling.cpp \
+  ggml/src/ggml-backend.cpp \
+  ggml/src/ggml-alloc.c \
+  ggml/src/ggml-quants.c \
+  ggml/src/ggml.c
+  
+  
+  
+  em++ -O3 -std=c++17 \
+    -s USE_PTHREADS=1 \
+    -s PTHREAD_POOL_SIZE=4 \
+    -s ALLOW_MEMORY_GROWTH=1 \
+    -s MODULARIZE=1 \
+    -s EXPORT_NAME="llama" \
+    -s EXPORTED_FUNCTIONS=_main \
+    -s EXPORTED_RUNTIME_METHODS=ccall,cwrap \
+    -Iinclude -Iggml/include -Isrc -Icommon \
+    wasm_main.cpp \
+    src/llama.cpp \
+    src/llama-sampling.cpp \
+	src/llama-model.cpp \
+	src/llama-batch.cpp \
+	src/llama*.cpp
+	common/log.cpp \
+	tools/tokenize/tokenize.cpp \
+    ggml/src/ggml-backend.cpp \
+    ggml-alloc.o ggml-quants.o ggml.o \
+    -o llama.js
+	

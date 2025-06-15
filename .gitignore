@@ -1,0 +1,75 @@
+# --- Local development ---
+.DS_Store
+*.log
+*.swp
+*.swo
+*.tmp
+
+# --- Compiled object files ---
+*.o
+*.obj
+*.lo
+*.la
+
+# --- Build directories ---
+/build/
+/dist/
+/out/
+/bin/
+/lib/
+
+# --- Emscripten artifacts ---
+*.js
+*.wasm
+*.data
+*.html
+*.map
+*.worker.js
+
+# --- Emsdk ---
+/emsdk/
+/emsdk_env.sh
+/emsdk_env.csh
+/.emscripten
+/.emscripten_cache/
+/.upstream_emscripten/
+
+# --- llama.cpp cloned repo ---
+/llama.cpp/
+/llama.cpp/**
+
+# --- VSCode and JetBrains IDEs ---
+.vscode/
+/.idea/
+cmake-build-*/
+
+# --- Node/npm (if applicable) ---
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# --- CMake (if used) ---
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# --- Coverage or analysis ---
+*.gcno
+*.gcda
+*.gcov
+*.profraw
+*.profdata
+coverage/
+
+# --- Backup files ---
+*~
+*.bak
+*.old
+*.orig
+*.rej
+
+# --- Environment files ---
+.env
+.env.local
