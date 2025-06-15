@@ -94,15 +94,17 @@ Model used:
 You can swap in other small GGUF-compatible models later.
 
 ## 📂 Project Structure
-
+```
 /
-├── src/                 # llama.cpp source files
-├── ggml/                # Tensor/math backend
-├── wasm_main.cpp        # WASM entrypoint
-├── llama.js             # Emscripten JS glue output
-├── index.html           # Basic UI
+├── public/               # index.html and model assets
+├── src/                  # WebAssembly and llama.cpp integration code
+│   ├── wasm_main.cpp     # Entry point for WebAssembly
+│   └── ...               # Additional C++ source files
+├── llama.cpp/            # (Ignored) llama.cpp submodule (optional)
+├── emsdk/                # (Ignored) Emscripten SDK directory
 ├── .gitignore
 └── README.md
+```
 
 ## 📜 License
 

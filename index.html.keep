@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<h3>TinyLLaMa WebAssembly Demo</h3>
+<pre id="output"></pre>  <!-- area to display model output -->
+<script>
+    // Provide the model URL (or use a file input to select local file)
+    const modelURL = "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf";
+
+    // Configure Emscripten Module
+    var Module = {
+        onRuntimeInitialized: () => {
+            console.log("WASM runtime initialized, fetching model...");
+            fetch(modelURL).then(res => res.arrayBuffer()).then(data => {
+                // Write the downloaded GGUF model to Emscripten FS:
+                let bytes = new Uint8Array(data);
+                Module.FS_writeFile("/tinyllama.gguf", bytes);  // create file in WASM FS
+                console.log("Model loaded into WASM FS (", bytes.length, "bytes ).");
+                // Now call the main() function of our program:
+                Module.ccall('main', 'number', [], []);  // runs main(), which loads model and prints output
+                // The output will be printed to stdout, which we redirect to the page below.
+            });
+        },
+        print: (text) => {
+            console.log(text);
+            document.getElementById('output').textContent += text + "\n";
+        }
+    };
+</script>
+<script src="llama.js"></script>
+</body>
+</html>
